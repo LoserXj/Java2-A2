@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
-    private Connection connection =null;
+  private Connection connection =null;
 
-    public UserDaoImpl(){
+  public UserDaoImpl(){
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
         String password = "xujian123";
@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
         new UserDaoImpl();
     }
 
@@ -33,8 +33,8 @@ public class UserDaoImpl implements UserDao {
      * @param id
      * @return User
      */
-    @Override
-    public User selectUserById(Integer id){
+  @Override
+  public User selectUserById(Integer id){
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement("select * from users where userid = ?")) {
             preparedStatement.setInt(1, id);
@@ -54,10 +54,10 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return null;
-    }
+  }
 
-    @Override
-    public synchronized User selectUserByName(String userName){
+  @Override
+  public synchronized User selectUserByName(String userName){
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement("SELECT * FROM users where username = ?")) {
             preparedStatement.setString(1, userName);
@@ -79,8 +79,8 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    @Override
-    public User selectByAndrAndPort(String addr,String port){
+  @Override
+  public User selectByAndrAndPort(String addr,String port){
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement("select * from users where addr = ? and port = ?")) {
             preparedStatement.setString(1, addr);
@@ -101,15 +101,15 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return null;
-    }
+  }
 
     /**
      * update user status
      * @param userName
      * @return void
      */
-    @Override
-    public synchronized void updateStatus(String userName,String addr,String port){
+  @Override
+  public synchronized void updateStatus(String userName,String addr,String port){
         try{
             String sql =  "UPDATE users SET state = ? , addr = ?, port = ?  WHERE userName = ?";
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -122,9 +122,9 @@ public class UserDaoImpl implements UserDao {
         }catch (SQLException e){
             e.printStackTrace();
         }
-    }
-    @Override
-    public void updateOffline(String name){
+  }
+  @Override
+  public void updateOffline(String name){
         try{
             String sql =  "UPDATE users SET state = ?  WHERE userName = ?";
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -134,10 +134,10 @@ public class UserDaoImpl implements UserDao {
         }catch (SQLException e){
             e.printStackTrace();
         }
-    }
+  }
 
-    @Override
-    public synchronized void userOffLine(String userName){
+  @Override
+  public synchronized void userOffLine(String userName){
         try{
             String sql =  "UPDATE users SET state = 0 WHERE userName = ?";
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -151,8 +151,8 @@ public class UserDaoImpl implements UserDao {
     /**
      * select user who status is 1
      */
-    @Override
-    public List<User> activateUser(){
+  @Override
+  public List<User> activateUser(){
         List<User> users = new ArrayList<>();
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement("SELECT * FROM users where state = 1")) {
@@ -174,8 +174,8 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
-    @Override
-    public synchronized void register(String userName,String password){
+  @Override
+  public synchronized void register(String userName,String password){
         try{
             String sql = "INSERT INTO users (userName, password) VALUES (?, ?)";
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -187,8 +187,8 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
-    public List<ChatGroup> getGroup(Integer userId){
+  @Override
+  public List<ChatGroup> getGroup(Integer userId){
         List<ChatGroup> groups = new ArrayList<>();
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement("SELECT * FROM group_chat where memberid = ?")) {

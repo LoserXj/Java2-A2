@@ -28,59 +28,59 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Data
 public class MyChatController {
-    @FXML
-    public Label ChatObj;
-    @FXML
-    private  ListView<String> chatList;
+  @FXML
+  public Label ChatObj;
+  @FXML
+  private  ListView<String> chatList;
 
-    @FXML
-    private ListView<ShowMessage> chatContentList = new ListView<>();
+  @FXML
+  private ListView<ShowMessage> chatContentList = new ListView<>();
 
-    @FXML
-    private TextArea inputArea;
+  @FXML
+  private TextArea inputArea;
 
-    @FXML
-    private Label currentUsername;
+  @FXML
+  private Label currentUsername;
 
-    @FXML
-    private Label currentOnlineCnt;
+  @FXML
+  private Label currentOnlineCnt;
 
-    private Socket socket;
+  private Socket socket;
 
-    private ObjectOutputStream oos;
+  private ObjectOutputStream oos;
 
-    private ObjectInputStream ois;
+  private ObjectInputStream ois;
 
-    private String currentUser;
+  private String currentUser;
 
 
-    private String sendTo;
+  private String sendTo;
 
-    private String type="";
+  private String type="";
 
-    private String groupName="";
+  private String groupName="";
 
-    public void setChatObj(String name){
+  public void setChatObj(String name){
         Platform.runLater(()->{
             ChatObj.setText("聊天对象："+sendTo);
         });
-    }
-    public void setType(String type){
+  }
+  public void setType(String type){
         this.type = type;
     }
-    public void setGroupName(String groupName){
+  public void setGroupName(String groupName){
         this.groupName = groupName;
     }
-    public void setSendTo(String sendTo){
+  public void setSendTo(String sendTo){
         setChatObj(sendTo);
         this.sendTo = sendTo;
-    }
-    public void setCurrentUsername(String userName){
+  }
+  public void setCurrentUsername(String userName){
         Platform.runLater(()->{
             this.currentUsername.setText("当前用户："+userName);
         });
-    }
-    public void setChatList(ObservableList<String> userList){
+  }
+  public void setChatList(ObservableList<String> userList){
         Platform.runLater(()->{
             this.chatList.setItems(userList);
             this.chatList.setOnMouseClicked(clickEvent-> {
@@ -102,48 +102,48 @@ public class MyChatController {
         });
     }
 
-    public void setCntOnline(Integer cnt){
+  public void setCntOnline(Integer cnt){
         this.currentOnlineCnt.setText("在线人数："+String.valueOf(cnt));
     }
 //    public void showMsg(ShowMessage showMessage){
 //        this.chatContentList.getItems().add(showMessage);
 //    }
-    public void setChatContentView(){
+  public void setChatContentView(){
         this.chatContentList.setCellFactory(new MessageCellFactory());
     }
 
-    public void setSocket(Socket socket) {
+  public void setSocket(Socket socket) {
         this.socket = socket;
     }
-    public void setOis(ObjectInputStream ois) {
+  public void setOis(ObjectInputStream ois) {
         this.ois = ois;
     }
-    public void setOos(ObjectOutputStream oos) {
+  public void setOos(ObjectOutputStream oos) {
         this.oos = oos;
     }
 
-    public void setCurrentUser(String currentUser) {
+  public void setCurrentUser(String currentUser) {
         this.currentUser = currentUser;
     }
 
-    @FXML
-    public void initialize() {
+  @FXML
+  public void initialize() {
         // 初始化控件和样式等方法
         // ...
-    }
-    @FXML
-    public void createPrivateChat() {
+  }
+  @FXML
+  public void createPrivateChat() {
         // 处理创建私聊室操作的逻辑
         // ...
-    }
+  }
 
-    @FXML
-    public void createGroupChat() {
+  @FXML
+  public void createGroupChat() {
 
-    }
+  }
 
-    @FXML
-    public void doSendMessage() {
+  @FXML
+  public void doSendMessage() {
         String text = inputArea.getText();
         String[] ms = text.split("\\n");
         System.out.println(ms.length);
@@ -180,49 +180,49 @@ public class MyChatController {
             }
         }).start();
 
-    }
-    public void showMsg(List<ShowMessage> smList){
+  }
+  public void showMsg(List<ShowMessage> smList){
         ObservableList<ShowMessage> observableItems = FXCollections.observableArrayList(smList);
         this.chatContentList.getItems().clear();
         this.chatContentList.setItems(observableItems);
         System.out.println("finish show");
-    }
-    public void sendMsg(Message message){
+  }
+  public void sendMsg(Message message){
         try{
             this.oos.writeObject(message);
             this.oos.flush();
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
+  }
 
-    /**
-     * 用来显示聊天列表、在线用户列表和收到消息时的弹窗窗口（或者其他 UI 控制器）
+  /**
+     * .用来显示聊天列表、在线用户列表和收到消息时的弹窗窗口（或者其他 UI 控制器）
      * @param messages 收到的未读消息
      */
-    public void updateUI(List<Message> messages) {
+  public void updateUI(List<Message> messages) {
         // 更新 UI 样式和数据
         // ...
-    }
+  }
 
-    public void updateChatList(List<String> onlineList){
+  public void updateChatList(List<String> onlineList){
         this.chatList = new ListView<>();
         for(String onlineUser:onlineList){
             this.chatList.getItems().add(onlineUser);
         }
     }
-    public void test(){
-        Platform.runLater(()->{
+  public void test(){
+      Platform.runLater(()->{
             List<String> list = new ArrayList<>();
             list.add("1");
             list.add("2");
             ObservableList<String> userList = FXCollections.observableArrayList(list);
             chatList.setItems(userList);
         });
-    }
+  }
 
 
-    private class MessageCellFactory implements Callback<ListView<ShowMessage>, ListCell<ShowMessage>> {
+  private class MessageCellFactory implements Callback<ListView<ShowMessage>, ListCell<ShowMessage>> {
         @Override
         public ListCell<ShowMessage> call(ListView<ShowMessage> param) {
             return new ListCell<ShowMessage>() {
@@ -258,5 +258,5 @@ public class MyChatController {
                 }
             };
         }
-    }
+  }
 }

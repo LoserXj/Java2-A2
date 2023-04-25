@@ -26,73 +26,91 @@ import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import java.awt.Toolkit;
-public class ChatClientView extends Application {
-    private String currentUser;
-    private boolean finish = false;
-    /**
-     * 常用的常量
-     */
-    private Macro macro = new Macro();
-    /**
-     * 用户socket
-     */
-    private Socket socket;
-    /**
-     * 读取来自服务器的消息
-     */
-    private ObjectInputStream ois;
-    /**
-     * 向服务器发送消息
-     */
-    private ObjectOutputStream oos;
 
-    private ObjectOutputStream oos1;
-    private ObjectInputStream ois1;
+/**
+ * .聊天界面
+ */
+public class ChatClientView extends Application {
+  /**
+     *. 常用的常量
+     */
+  private String currentUser;
+  private boolean finish = false;
+  /**
+     * .常用的常量
+     */
+  private Macro macro = new Macro();
+  /**
+     *. 用户socket
+     */
+  private Socket socket;
+  /**
+     * .读取来自服务器的消息
+     */
+  private ObjectInputStream ois;
+  /**
+   *. 向服务器发送消息
+     */
+  private ObjectOutputStream oos;
+  /**
+     *. 常用的常量
+     */
+  private ObjectOutputStream oos1;
+  /**
+     *. 常用的常量
+     */
+  private ObjectInputStream ois1;
     /**
      * UI主控制
      */
-    private Stage primaryStage;
+  private Stage primaryStage;
 
-    /**
-     * 显示在线用户和群聊
+  /**
+     *. 显示在线用户和群聊
      */
-    private ListView<String> userList = new ListView<>();
+  private ListView<String> userList = new ListView<>();
 
-    /**
-     * 聊天展示
+  /**
+     *. 聊天展示
      */
-    private TextArea chatArea = new TextArea();
+  private TextArea chatArea = new TextArea();
 
-    /**
-     * 输入框
+  /**
+     *. 输入框
      */
-    private TextField inputField = new TextField();
+  private TextField inputField = new TextField();
 
-    /**
-     * 当前聊天对象
+  /**
+     * .当前聊天对象
      */
-    private String chatUser = null;
+  private String chatUser = null;
+  /**
+     * .当前聊天对象
+     */
 
-    private Socket updateSocket;
-    private MyChatController controller;
+  private Socket updateSocket;
+   /**
+     * .当前聊天对象
+     */
+  private MyChatController controller;
 
-    private Stage onlineUserPageStage = new Stage();
+  private Stage onlineUserPageStage = new Stage();
 
-    private ListView<String> onlineUserListView = new ListView<>();
-    private ListView<String> groupChatListView = new ListView<>();
+  private ListView<String> onlineUserListView = new ListView<>();
+  private ListView<String> groupChatListView = new ListView<>();
 
-    private Button addGroupButton;
+  private Button addGroupButton;
 
-    private Label onlineUserCount =new Label();
+  private Label onlineUserCount =new Label();
 
-    /**
+  /**
      * 构造聊天界面
      * @param socket
      * @param ois
      * @param oos
      */
 
-    public ChatClientView(Socket socket, ObjectInputStream ois , ObjectOutputStream oos, String currentUser, List<String> groupList){
+  public ChatClientView(Socket socket, ObjectInputStream ois , ObjectOutputStream oos, String currentUser, List<String> groupList){
         this.currentUser = currentUser;
         try{
             this.updateSocket = new Socket(macro.getAddr(),macro.getPort());
@@ -138,14 +156,14 @@ public class ChatClientView extends Application {
                 showInfo("initializing chat error, which maybe not in socket");
             }
         }
-    }
+  }
 
 
-    public ChatClientView(){
-    }
+  public ChatClientView(){
+  }
 
-    @Override
-    public void start(Stage primaryStage)throws Exception{
+  @Override
+  public void start(Stage primaryStage)throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("chat.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
         primaryStage.setTitle("Chatting Client");
@@ -192,9 +210,9 @@ public class ChatClientView extends Application {
                 throw new RuntimeException(e);
             }
         });
-    }
+  }
 
-    public void communicate(){
+  public void communicate(){
         Timer timer = new Timer();
         new Thread(()->{
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -258,8 +276,8 @@ public class ChatClientView extends Application {
                 break;
             }
         }
-    }
-    public  boolean isSocketConnectable(String host, int port) {
+  }
+  public  boolean isSocketConnectable(String host, int port) {
         try(Socket socket = new Socket()) {
             // 设置连接超时时间
             socket.connect(new InetSocketAddress(host, port), 2000);
@@ -268,7 +286,7 @@ public class ChatClientView extends Application {
             return false;
         }
     }
-    public void parseMessage(Message message){
+  public void parseMessage(Message message){
         switch (message.getType()){
             case "privateChat":
                 Toolkit.getDefaultToolkit().beep();
@@ -295,8 +313,8 @@ public class ChatClientView extends Application {
                 onlineUserListView.setItems(userList);
             });
         }).start();
-    }
-    public void handleCreateGroup(Message resp){
+  }
+  public void handleCreateGroup(Message resp){
         if(resp.isNeedReminded()){
             new Thread(()->showInfo("you have joined "+resp.getGroupName())).start();
         }
@@ -336,8 +354,8 @@ public class ChatClientView extends Application {
                 });
             }).start();
         }
-    }
-    public void handleGroupRecode(Message resp){
+  }
+  public void handleGroupRecode(Message resp){
         if(resp.isNeedReminded()){
             new Thread(()->showInfo("you have received new message from "+resp.getGroupName()+" group")).start();
         }
@@ -357,7 +375,7 @@ public class ChatClientView extends Application {
             });
         }).start();;
     }
-    public void handlePersonalChatRecode(Message resp){
+  public void handlePersonalChatRecode(Message resp){
         if(resp.isNeedReminded()){
            new Thread(()->showInfo("receiv new message from "+resp.getUserName())).start();
         }
@@ -376,9 +394,9 @@ public class ChatClientView extends Application {
                 this.controller.showMsg(showMessageList);
             });
         }).start();;
-    }
+  }
 
-    public void showInfo(String message){
+  public void showInfo(String message){
         Platform.runLater(()->{
             Alert alert = new Alert(Alert.AlertType.INFORMATION,message);
             alert.showAndWait();
@@ -386,7 +404,7 @@ public class ChatClientView extends Application {
     }
 
 
-    public void release()throws Exception{
+  public void release()throws Exception{
         if(socket!=null){
             socket.close();
         }
@@ -401,11 +419,11 @@ public class ChatClientView extends Application {
         }
     }
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
         launch(args);
-    }
+  }
 
-    class MultiSelectDialog extends Dialog<List<String>> {
+  class MultiSelectDialog extends Dialog<List<String>> {
 
         private final List<String> items;
         public MultiSelectDialog(List<String> items) {

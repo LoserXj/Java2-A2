@@ -18,16 +18,16 @@ import java.net.Socket;
 
 public class LoginApplication extends Application {
 
-    private Stage primaryStage;
-    private Socket socket;
-    private ObjectInputStream ois;
-    private ObjectOutputStream oos;
+  private Stage primaryStage;
+  private Socket socket;
+  private ObjectInputStream ois;
+  private ObjectOutputStream oos;
 
-    private Macro macro = new Macro();
+  private Macro macro = new Macro();
 
 
-    @Override
-    public void start(Stage primaryStage)throws Exception{
+  @Override
+  public void start(Stage primaryStage)throws Exception{
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
         gridPane.setHgap(5);
@@ -121,16 +121,16 @@ public class LoginApplication extends Application {
         primaryStage.setScene(scene);
         this.primaryStage=primaryStage;
         this.primaryStage.show();
-    }
-    public void showInfo(String info){
+  }
+  public void showInfo(String info){
         Alert alert = new Alert(Alert.AlertType.INFORMATION,info);
         alert.showAndWait();
-    }
-    public void connectError(){
+  }
+  public void connectError(){
        showInfo("can not connect to server");
     }
 
-    public void release()throws Exception{
+  public void release()throws Exception{
         if(socket!=null){
             socket.close();
         }
@@ -144,16 +144,16 @@ public class LoginApplication extends Application {
             primaryStage.close();
         }
     }
-    public void showInfoError(String errorInfo){
+  public void showInfoError(String errorInfo){
         Alert alert = new Alert(Alert.AlertType.INFORMATION,errorInfo);
         alert.showAndWait();
-    }
-    public boolean parseResp(Message resp){
+  }
+  public boolean parseResp(Message resp){
         return resp.getStatusCode().equals("success");
-    }
+  }
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
         launch(args);
-    }
+  }
 
 }
