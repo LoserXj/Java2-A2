@@ -209,8 +209,8 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    @Override
-    public void insertGroupMsg(Group_Msg groupMsg){
+  @Override
+  public void insertGroupMsg(Group_Msg groupMsg){
         try{
             String sql = "insert into group_msg (groupname, username, content, timestamp) VALUES (?,?,?,?)";
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -224,8 +224,8 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
-    public void insertPersonalMsg(Personal_Msg personalMsg){
+  @Override
+  public void insertPersonalMsg(Personal_Msg personalMsg){
         try{
             String sql = "insert into personal_msg ( sendby, sendto, timestamp, content) VALUES (?,?,?,?)";
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -239,8 +239,8 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
-    public List<Personal_Msg> personalMsgRecode(String userName,String chatWith){
+  @Override
+  public List<Personal_Msg> personalMsgRecode(String userName,String chatWith){
             List<Personal_Msg> pmList = new ArrayList<>();
         try{
             String sql = "select * from personal_msg where sendby = ? and sendto = ?";
@@ -263,8 +263,8 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    @Override
-    public List<Group_Msg> groupMsgRecode(String groupName){
+  @Override
+  public List<Group_Msg> groupMsgRecode(String groupName){
         List<Group_Msg> gmList = new ArrayList<>();
         try{
             String sql = "select * from group_msg where groupname = ?";
@@ -286,8 +286,8 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    @Override
-    public  List<ChatGroup> selectGroupMember(String groupName){
+  @Override
+  public  List<ChatGroup> selectGroupMember(String groupName){
         List<ChatGroup> cgList = new ArrayList<>();
         try{
             String sql = "select * from group_chat where groupname = ?";
@@ -307,8 +307,8 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-   @Override
-   public void createGroup(Integer id,String groupName){
+  @Override
+  public void createGroup(Integer id,String groupName){
        try{
            String sql = "insert into group_chat (groupname, memberid) VALUES (?,?)";
            PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -320,8 +320,8 @@ public class UserDaoImpl implements UserDao {
        }
    }
 
-   @Override
-   public void init(){
+  @Override
+  public void init(){
        try{
            String sql =  "update users set state = 0 where state != 0";
            PreparedStatement stmt = this.connection.prepareStatement(sql);

@@ -13,30 +13,30 @@ import java.util.List;
 
 public interface UserDao {
 
-    User selectUserById(Integer id);
-    User selectUserByName(String userName);
-    void updateStatus(String userNam,String addr,String port);
-    List<User> activateUser();
-    void userOffLine(String userName);
+  User selectUserById(Integer id);
+  User selectUserByName(String userName);
+  void updateStatus(String userNam,String addr,String port);
+  List<User> activateUser();
+  void userOffLine(String userName);
 
-    List<ChatGroup> getGroup(Integer userId);
-    void register(String userName,String password);
+  List<ChatGroup> getGroup(Integer userId);
+  void register(String userName,String password);
 
-    void insertGroupMsg(Group_Msg groupMsg);
+  void insertGroupMsg(Group_Msg groupMsg);
 
-    void insertPersonalMsg(Personal_Msg personalMsg);
+  void insertPersonalMsg(Personal_Msg personalMsg);
 
-    List<Personal_Msg> personalMsgRecode(String userName,String chatWith);
+  List<Personal_Msg> personalMsgRecode(String userName,String chatWith);
 
-    List<Group_Msg> groupMsgRecode(String groupName);
+  List<Group_Msg> groupMsgRecode(String groupName);
 
-    List<ChatGroup> selectGroupMember(String groupName);
+  List<ChatGroup> selectGroupMember(String groupName);
 
-    void createGroup(Integer id,String groupName);
+  void createGroup(Integer id,String groupName);
 
-    void updateOffline(String name);
+  void updateOffline(String name);
 
-    User selectByAndrAndPort(String addr,String port);
+  User selectByAndrAndPort(String addr,String port);
 
-    void init();
+  void init();
 }

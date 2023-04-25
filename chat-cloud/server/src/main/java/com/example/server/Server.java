@@ -16,18 +16,18 @@ import java.sql.Time;
 import java.util.*;
 
 public class Server {
-    private static Macro macro = new Macro();
+  private static Macro macro = new Macro();
 
-    private static Socket testSocket;
+  private static Socket testSocket;
 
-    private static Socket updateSocket;
+  private static Socket updateSocket;
 
-    private static HashMap<String,ObjectOutputStream> userMapOOS = new HashMap<>();
+  private static HashMap<String,ObjectOutputStream> userMapOOS = new HashMap<>();
 
-    private static HashMap<String,Socket> socketHashMap = new HashMap<>();
-    @Autowired
-    private static UserDao userDao = new UserDaoImpl();
-    public static void Server()throws Exception{
+  private static HashMap<String,Socket> socketHashMap = new HashMap<>();
+  @Autowired
+  private static UserDao userDao = new UserDaoImpl();
+  public static void Server()throws Exception{
         ServerSocket serverSocket = new ServerSocket(macro.getPort());
         testSocket = new Socket();
         updateSocket = new Socket();
@@ -39,8 +39,8 @@ public class Server {
             ServerThread serverThread = new ServerThread(socket,userMapOOS,socketHashMap);
             serverThread.start();
         }
-    }
-    public static void updateOnlineUser(){
+  }
+  public static void updateOnlineUser(){
         new Thread(()->{
             System.out.println("start a thread to update online user");
             Timer timer = new Timer();
@@ -71,7 +71,7 @@ public class Server {
             timer.schedule(task,3000,3000);
         }).start();
     }
-    public static boolean isConnect(String userName)  {
+  public static boolean isConnect(String userName)  {
         User user = userDao.selectUserByName(userName);
         if(user!=null&&user.getState()==1){
             try {
@@ -84,7 +84,7 @@ public class Server {
         return true;
     }
 
-    public static void main(String[] args)throws Exception {
+  public static void main(String[] args)throws Exception {
        Server();
-    }
+  }
 }
