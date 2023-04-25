@@ -1,0 +1,12 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/online_chat
+    username: postgres
+    password: xujian123
+    driver-class-name: org.postgresql.Driver
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
